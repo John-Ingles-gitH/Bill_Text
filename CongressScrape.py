@@ -5,20 +5,21 @@ import re
 headers = {'User-Agent': 'Mozilla/5.0'}
 
 def get_link_list(page_link, last_page_num):
+	#Returns a list of urls, one for each Bill
 	if last_page_num == 'All':
 		page_response = req.get(page_link, headers=headers, timeout=5)
 		page_content = BeautifulSoup(page_response.content, "html.parser")
 		last_page = page_content.find('a',attrs={'class':'last'})
 		last_page_link = last_page.get('href')
 		last_page_num = re.sub('.*?([0-9]*)$',r'\1',last_page_link)
-		time.sleep(2)
+		time.sleep(2)#needed to follow congress.gov's crawl limit
 		
 	def get_next_link():
+		#Convert page link to next page link
+		#Ex. website.com/page=5 ->website.com/page=6
 		last = int(page_link[-1:])
 		y=last + 1
 		return page_link[:-1]+str(y)
-
-
 
 	linkList= []
 	counter	= 1
@@ -26,21 +27,17 @@ def get_link_list(page_link, last_page_num):
 
 		page_response = req.get(page_link, headers=headers, timeout=5)
 		page_content = BeautifulSoup(page_response.content, "html.parser")	
-
-
+		
 		elems = page_content.find_all('li', attrs={'class':'expanded'})
 
-		
 		for elem in elems:
 			span = elem.find('span', attrs={'class':'result-heading'})
 			linkList.append(span.a.get('href'))
-		
-		
 
 		page_link = get_next_link()
 		print(counter)
 		counter+=1
-		time.sleep(2)
+		time.sleep(2)#needed to follow congress.gov's crawl limit
 
 	return linkList
 
