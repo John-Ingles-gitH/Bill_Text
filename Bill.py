@@ -1,7 +1,8 @@
 class Bill:
 	'''Contains all the information about a congressional bill'''
 	def __init__(self, name, years, congress_num, sponsor, sponsors_party,
-				num_cosponsors, bill_type, bill_link, path_to_text):
+				num_cosponsors, bill_type, bill_link, path_to_text
+				date_introduced):
 		
 		'''
 		
@@ -14,7 +15,8 @@ class Bill:
 			num_cosponsors (str): Number of cosponsors
 			bill_type      (str): Bill Type (Bill, Resolution, Joint Resolution, etc.)
 			bill_link      (str): Url to bill
-			path_to_text   (str): file path to saved copy of Bill Text
+			path_to_text   (str): File path to saved copy of Bill Text
+			date_introduced(str): Date bill was introduced
 		
 		'''
 		self.name = name
@@ -26,6 +28,7 @@ class Bill:
 		self.bill_type = bill_type
 		self.bill_link = bill_link
 		self.path_to_text = path_to_text
+		self.date_introduced = date_introduced
 	
 	def text(self):
 		#return text of bill from file
